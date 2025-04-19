@@ -21,3 +21,19 @@ As per the [Picogen](https://pypi.org/project/picogen/) library use `picogen --g
 ```
 python -m http.server --directory build --bind localhost
 ```
+
+## Deploy to AWS Amplify
+
+Move local build to bucket and start AWS Amplify deployment.
+
+```
+picogen --deploy bucket-name &&
+aws amplify start-deployment \
+--app-id <app_id> \
+--branch-name <branch_name> \
+--source-url s3://bucket-name/ \
+--source-url-type BUCKET_PREFIX
+```
+
+Source: [Updating a static website deployed to Amplify from an S3 bucket](https://docs.aws.amazon.com/amplify/latest/userguide/update-website-deployed-from-s3.html).  
+Note: Need to have AWS-CLI 2.18.7+ and a proper AWS policy so the user can perform these commands.

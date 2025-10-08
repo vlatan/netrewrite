@@ -27,11 +27,11 @@ python -m http.server --directory build --bind localhost
 Move local build to bucket and start AWS Amplify deployment.
 
 ```
-picogen --deploy bucket-name &&
+picogen --deploy <bucket-name> &&
 aws amplify start-deployment \
---app-id <app_id> \
---branch-name <branch_name> \
---source-url s3://bucket-name/ \
+--app-id <app-id> \
+--branch-name <branch-name> \
+--source-url s3://<bucket-name>/ \
 --source-url-type BUCKET_PREFIX
 ```
 

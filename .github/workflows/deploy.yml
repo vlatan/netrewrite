@@ -1,0 +1,83 @@
+name: Static Website CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs: 
+  check-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      blog: ${{ steps.filter.outputs.blog }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      
+      - name: Check for relevant file changes
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            blog:
+              - '.github/**'
+              - 'content/**'
+              - 'internal/**'
+              - 'Dockerfile'
+              - 'generate.py'
+
+  
+  build-and-push:
+    needs: [check-changes]
+    # Deploy only if relevant files changed
+    if: needs.check-changes.outputs.blog == 'true'
+    runs-on: ubuntu-latest
+
+    env:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: ${{ github.repository }}
+   
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          build-args: TARGET=${{ matrix.target }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # deploy:
+  #   needs: build-and-push
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Deploy to VPS via SSH
+  #       uses: appleboy/ssh-action@v1.2.4
+  #       with:
+  #         host: ${{ secrets.VPS_HOST }}
+  #         port: ${{ secrets.VPS_PORT }}
+  #         username: ${{ secrets.VPS_USER }}
+  #         key: ${{ secrets.SSH_PRIVATE_KEY }}
+  #         script: |
+  #           cd ~/proxy
+  #           docker compose up --detach --pull always --scale video-store-app=2

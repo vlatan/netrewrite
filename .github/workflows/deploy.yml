@@ -23,7 +23,6 @@ jobs:
             blog:
               - '.github/**'
               - 'content/**'
-              - 'internal/**'
               - 'Dockerfile'
               - 'generate.py'
 

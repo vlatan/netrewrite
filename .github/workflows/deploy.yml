@@ -25,6 +25,7 @@ jobs:
               - 'content/**'
               - 'Dockerfile'
               - 'generate.py'
+              - 'nginx.conf'
 
   
   build-and-push:

@@ -19,7 +19,7 @@ COPY content/ ./content/
 RUN echo "SITE_URL=${SITE_URL}" > .env && \
     echo "SITE_NAME=${SITE_NAME}" >> .env && \
     echo "SITE_TAGLINE=${SITE_TAGLINE}" >> .env && \
-    echo "GTAG_ID=${GTAG_ID}" >> .env \
+    echo "GTAG_ID=${GTAG_ID}" >> .env && \
     echo "CONTACT_EMAIL=${CONTACT_EMAIL}" >> .env
 
 # Gnerate the website

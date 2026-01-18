@@ -37,3 +37,8 @@ aws amplify start-deployment \
 
 Source: [Updating a static website deployed to Amplify from an S3 bucket](https://docs.aws.amazon.com/amplify/latest/userguide/update-website-deployed-from-s3.html).  
 Note: Need to have AWS-CLI 2.18.7+ and a proper AWS policy so the user can perform these commands.
+
+
+## License
+
+[![License: GNU GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg?label=License)](/LICENSE "License: GNU GPLv3")

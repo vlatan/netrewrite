@@ -1,1 +1,0 @@
-* Remove env vars, make them public

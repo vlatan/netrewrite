@@ -15,14 +15,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the content (.md files)
 COPY content/ ./content/
 
-# Create .env file from build args - generator wants an .env file
-RUN echo "SITE_URL=${SITE_URL}" > .env && \
-    echo "SITE_NAME=${SITE_NAME}" >> .env && \
-    echo "SITE_TAGLINE=${SITE_TAGLINE}" >> .env && \
-    echo "GTAG_ID=${GTAG_ID}" >> .env && \
-    echo "CONTACT_EMAIL=${CONTACT_EMAIL}" >> .env
+# Create env vars
+ENV SITE_URL=$SITE_URL
+ENV SITE_NAME=$SITE_NAME
+ENV SITE_TAGLINE=$SITE_TAGLINE
+ENV GTAG_ID=$GTAG_ID
+ENV CONTACT_EMAIL=$CONTACT_EMAIL
 
-# Gnerate the website
+# Generate the website
 RUN picogen --generate
 
 # Production image

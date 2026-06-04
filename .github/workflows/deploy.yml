@@ -9,6 +9,7 @@ on:
       - 'Dockerfile'
       - 'generate.py'
       - 'nginx.conf'
+      - 'requirements.txt'
   pull_request: *code_changes
 
 env:

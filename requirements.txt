@@ -1,1 +1,1 @@
-picogen==0.0.26
+picogen==0.0.27
